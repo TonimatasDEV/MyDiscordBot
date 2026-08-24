@@ -1,0 +1,35 @@
+use serenity::all::ChannelId;
+use serenity::all::Member;
+use serenity::all::Ready;
+use serenity::async_trait;
+use serenity::prelude::*;
+
+const WELCOME_CHANNEL_ID: u64 = 1471176961735790735;
+
+pub struct Handler;
+
+#[async_trait]
+impl EventHandler for Handler {
+    async fn guild_member_addition(&self, ctx: Context, new_member: Member) {
+        let member_count = if let Some(guild) = new_member.guild_id.to_guild_cached(&ctx.cache) {
+            guild.member_count
+        } else {
+            println!("Guild not found in cache");
+            return;
+        };
+
+        let channel: ChannelId = WELCOME_CHANNEL_ID.into();
+
+        let message = format!(
+            "Welcome {} to Ethene Hosting! We are now: {}!",
+            new_member.user.mention(),
+            member_count
+        );
+
+        let _ = channel.say(&ctx.http, &message).await;
+    }
+
+    async fn ready(&self, _: Context, ready: Ready) {
+        println!("{} is connected", ready.user.name);
+    }
+}
