@@ -5,12 +5,18 @@ use serenity::async_trait;
 use serenity::prelude::*;
 
 const WELCOME_CHANNEL_ID: u64 = 1471176961735790735;
+const ROLE_ID: u64 = 1471920290673201235;
 
 pub struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
     async fn guild_member_addition(&self, ctx: Context, new_member: Member) {
+        new_member
+            .add_role(&ctx.http, ROLE_ID)
+            .await
+            .expect("Error adding role to new member");
+
         let member_count = if let Some(guild) = new_member.guild_id.to_guild_cached(&ctx.cache) {
             guild.member_count
         } else {
