@@ -12,16 +12,14 @@ pub struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn guild_member_addition(&self, ctx: Context, new_member: Member) {
-        new_member
-            .add_role(&ctx.http, ROLE_ID)
-            .await
-            .expect("Error adding role to new member");
+        if let Err(e) = new_member.add_role(&ctx.http, ROLE_ID).await {
+            println!("Error adding role to new member: {e}");
+        }
 
         let member_count = if let Some(guild) = new_member.guild_id.to_guild_cached(&ctx.cache) {
             guild.member_count
         } else {
-            println!("Guild not found in cache");
-            return;
+            0
         };
 
         let channel: ChannelId = WELCOME_CHANNEL_ID.into();
