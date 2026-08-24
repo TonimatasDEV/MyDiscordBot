@@ -4,8 +4,8 @@ use serenity::all::Ready;
 use serenity::async_trait;
 use serenity::prelude::*;
 
-const WELCOME_CHANNEL_ID: u64 = 1471176961735790735;
-const ROLE_ID: u64 = 1471920290673201235;
+const WELCOME_CHANNEL_ID: u64 = 1323369443145027738;
+const ROLE_ID: u64 = 1323370508477005865;
 
 pub struct Handler;
 

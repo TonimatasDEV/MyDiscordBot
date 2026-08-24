@@ -1,5 +1,7 @@
 mod event;
 
+use std::env;
+
 use serenity::{
     Client,
     all::{ActivityData, GatewayIntents, Settings as CachedSettings},
@@ -8,7 +10,8 @@ use tokio::signal;
 
 #[tokio::main]
 async fn main() {
-    let token = "MTM4Njc5NTAxOTQxMDYwODI1OQ.G8D7Dr.Wc4aHcRxuVD1lP72SU_k47KkAehhJoOvQjC48A";
+    dotenvy::dotenv().ok();
+    let token = env::var("DISCORD_TOKEN").expect("Expected DISCORD_TOKEN in enviroment");
 
     let mut client = Client::builder(&token, GatewayIntents::all())
         .cache_settings(CachedSettings::default())
