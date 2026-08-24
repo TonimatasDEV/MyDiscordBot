@@ -24,11 +24,15 @@ impl EventHandler for Handler {
 
         let channel: ChannelId = WELCOME_CHANNEL_ID.into();
 
-        let message = format!(
-            "Welcome {} to Ethene Hosting! We are now: {}!",
-            new_member.user.mention(),
-            member_count
-        );
+        let message = if member_count == 0 {
+            format!("Welcome {} to Ethene Hosting!", new_member.user.mention())
+        } else {
+            format!(
+                "Welcome {} to Ethene Hosting! We are now: {}!",
+                new_member.user.mention(),
+                member_count
+            )
+        };
 
         let _ = channel.say(&ctx.http, &message).await;
     }
