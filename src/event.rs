@@ -38,6 +38,6 @@ impl EventHandler for Handler {
     }
 
     async fn ready(&self, _: Context, ready: Ready) {
-        println!("{} is started correctly", ready.user.name);
+        println!("Started correctly: {}", ready.user.name);
     }
 }
