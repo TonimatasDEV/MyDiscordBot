@@ -1,4 +1,5 @@
 mod command;
+mod config;
 mod listener;
 
 use std::env;

@@ -319,6 +319,8 @@ name = "ethene-discord"
 version = "0.1.0"
 dependencies = [
  "dotenvy",
+ "serde",
+ "serde_json",
  "serenity",
  "tokio",
 ]
