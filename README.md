@@ -1,5 +1,5 @@
-# Ethene Bot
-Simple bot for my Ethene Hosting Discord server.
+# MyDiscordBot
+Simple bot for my Discord servers.
 
 # Compile for Debian
 rustup target add x86_64-unknown-linux-musl
