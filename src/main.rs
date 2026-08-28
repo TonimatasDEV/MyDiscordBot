@@ -17,6 +17,7 @@ async fn main() {
         .cache_settings(CachedSettings::default())
         .activity(ActivityData::playing("Minecraft"))
         .event_handler(listener::member_addition::Handler)
+        .event_handler(listener::ready_message::Handler)
         .await
         .expect("Err creating client");
 
