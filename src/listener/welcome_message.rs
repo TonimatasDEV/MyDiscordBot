@@ -1,26 +1,20 @@
-use std::env;
-
 use serenity::all::ChannelId;
 use serenity::all::Member;
 use serenity::async_trait;
 use serenity::prelude::*;
+
+use crate::config::guild::get_config;
 
 pub struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
     async fn guild_member_addition(&self, ctx: Context, new_member: Member) {
-        let welcome_channel_id: u64 = env::var("WELCOME_CHANNEL_ID")
-            .expect("Expected WELCOME_CHANNEL_ID in enviroment")
-            .parse()
-            .unwrap();
-        let role_id: u64 = env::var("ROLE_ID")
-            .expect("Expected ROLE_ID in enviroment")
-            .parse()
-            .unwrap();
+        let guild_id = new_member.guild_id.get();
+        let config = get_config(guild_id);
 
-        if let Err(e) = new_member.add_role(&ctx.http, role_id).await {
-            println!("Error adding role to new member: {e}");
+        if config.welcome_message_id == 0 {
+            return;
         }
 
         let member_count = if let Some(guild) = new_member.guild_id.to_guild_cached(&ctx.cache) {
@@ -29,14 +23,16 @@ impl EventHandler for Handler {
             0
         };
 
-        let channel: ChannelId = welcome_channel_id.into();
+        let channel: ChannelId = config.welcome_message_id.into();
 
+        let guild_name = new_member.guild_id.name(&ctx.cache).unwrap();
         let message = if member_count == 0 {
-            format!("Welcome {} to Ethene Hosting!", new_member.user.mention())
+            format!("Welcome {} to {}!", new_member.user.mention(), guild_name)
         } else {
             format!(
-                "Welcome {} to Ethene Hosting! We are now: {}!",
+                "Welcome {} to {}! We are now: {}!",
                 new_member.user.mention(),
+                guild_name,
                 member_count
             )
         };

@@ -18,7 +18,8 @@ async fn main() {
     let mut client = Client::builder(&token, GatewayIntents::all())
         .cache_settings(CachedSettings::default())
         .activity(ActivityData::playing("Minecraft"))
-        .event_handler(listener::member_addition::Handler)
+        .event_handler(listener::auto_role::Handler)
+        .event_handler(listener::welcome_message::Handler)
         .event_handler(listener::ready_message::Handler)
         .event_handler(listener::commands::Handler)
         .await
