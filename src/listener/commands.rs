@@ -15,6 +15,7 @@ impl EventHandler for Handler {
                 "ping" => command::ping::run(ctx, command).await,
                 "set-auto-role" => command::set_auto_role::run(ctx, command).await,
                 "set-welcome-channel" => command::set_welcome_channel::run(ctx, command).await,
+                "system-config" => command::system_config::run(ctx, command).await,
                 _ => println!("invalid command"),
             }
         }
@@ -25,5 +26,6 @@ impl EventHandler for Handler {
         let _ = Command::create_global_command(&ctx.http, command::set_auto_role::register()).await;
         let _ = Command::create_global_command(&ctx.http, command::set_welcome_channel::register())
             .await;
+        let _ = Command::create_global_command(&ctx.http, command::system_config::register()).await;
     }
 }

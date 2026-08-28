@@ -10,8 +10,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GuildConfig {
+    pub welcome_message_system: bool,
     pub welcome_message_id: u64,
+    pub auto_role_system: bool,
     pub auto_role_id: u64,
+    pub ticket_system: bool,
     pub ticket_channel: u64,
 }
 
@@ -21,19 +24,23 @@ fn configs() -> &'static Mutex<HashMap<u64, GuildConfig>> {
     CONFIGS.get_or_init(|| Mutex::new(HashMap::new()))
 }
 
+fn default_config() -> GuildConfig {
+    GuildConfig {
+        welcome_message_system: false,
+        welcome_message_id: 0,
+        auto_role_system: false,
+        auto_role_id: 0,
+        ticket_system: false,
+        ticket_channel: 0,
+    }
+}
+
 pub fn init_config_file(guild_id: u64) {
     let config_path = format!("config/{}.json", guild_id);
     if Path::new(&config_path).exists() {
         let _ = read_config_file(guild_id);
     } else {
-        let _ = set_config(
-            guild_id,
-            GuildConfig {
-                welcome_message_id: 0,
-                auto_role_id: 0,
-                ticket_channel: 0,
-            },
-        );
+        let _ = set_config(guild_id, default_config());
     }
 }
 
@@ -72,11 +79,7 @@ pub fn get_config(guild_id: u64) -> GuildConfig {
     configs
         .get(&guild_id)
         .cloned()
-        .unwrap_or_else(|| GuildConfig {
-            welcome_message_id: 0,
-            auto_role_id: 0,
-            ticket_channel: 0,
-        })
+        .unwrap_or_else(|| default_config())
 }
 
 pub fn set_config(

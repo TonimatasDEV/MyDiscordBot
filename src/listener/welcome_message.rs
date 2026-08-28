@@ -13,7 +13,7 @@ impl EventHandler for Handler {
         let guild_id = new_member.guild_id.get();
         let config = get_config(guild_id);
 
-        if config.welcome_message_id == 0 {
+        if !config.welcome_message_system || config.welcome_message_id == 0 {
             return;
         }
 
