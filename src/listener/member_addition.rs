@@ -44,8 +44,4 @@ impl EventHandler for Handler {
 
         let _ = channel.say(&ctx.http, &message).await;
     }
-
-    async fn ready(&self, _: Context, ready: Ready) {
-        println!("Started correctly: {}", ready.user.name);
-    }
 }
