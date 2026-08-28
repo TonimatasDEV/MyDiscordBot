@@ -1,4 +1,4 @@
-mod event;
+mod listener;
 
 use std::env;
 
@@ -16,7 +16,7 @@ async fn main() {
     let mut client = Client::builder(&token, GatewayIntents::all())
         .cache_settings(CachedSettings::default())
         .activity(ActivityData::playing("Minecraft"))
-        .event_handler(event::Handler)
+        .event_handler(listener::member_addition::Handler)
         .await
         .expect("Err creating client");
 
