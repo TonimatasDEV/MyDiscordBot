@@ -2,7 +2,6 @@ use std::env;
 
 use serenity::all::ChannelId;
 use serenity::all::Member;
-use serenity::all::Ready;
 use serenity::async_trait;
 use serenity::prelude::*;
 

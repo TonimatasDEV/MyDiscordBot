@@ -1,3 +1,4 @@
+mod command;
 mod listener;
 
 use std::env;
@@ -18,6 +19,7 @@ async fn main() {
         .activity(ActivityData::playing("Minecraft"))
         .event_handler(listener::member_addition::Handler)
         .event_handler(listener::ready_message::Handler)
+        .event_handler(listener::commands::Handler)
         .await
         .expect("Err creating client");
 
