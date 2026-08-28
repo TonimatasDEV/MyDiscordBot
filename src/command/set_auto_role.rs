@@ -3,7 +3,7 @@ use serenity::all::{
     CreateInteractionResponseMessage, InteractionContext, Permissions, ResolvedValue,
 };
 
-use crate::config::server::{get_config, set_config};
+use crate::config::guild::{get_config, set_config};
 
 pub async fn run(ctx: Context, interaction: CommandInteraction) {
     let guild_id = interaction.guild_id.unwrap().get();
