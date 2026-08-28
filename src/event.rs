@@ -1,18 +1,26 @@
+use std::env;
+
 use serenity::all::ChannelId;
 use serenity::all::Member;
 use serenity::all::Ready;
 use serenity::async_trait;
 use serenity::prelude::*;
 
-const WELCOME_CHANNEL_ID: u64 = 1323369443145027738;
-const ROLE_ID: u64 = 1323370508477005865;
-
 pub struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
     async fn guild_member_addition(&self, ctx: Context, new_member: Member) {
-        if let Err(e) = new_member.add_role(&ctx.http, ROLE_ID).await {
+        let welcome_channel_id: u64 = env::var("WELCOME_CHANNEL_ID")
+            .expect("Expected WELCOME_CHANNEL_ID in enviroment")
+            .parse()
+            .unwrap();
+        let role_id: u64 = env::var("ROLE_ID")
+            .expect("Expected ROLE_ID in enviroment")
+            .parse()
+            .unwrap();
+
+        if let Err(e) = new_member.add_role(&ctx.http, role_id).await {
             println!("Error adding role to new member: {e}");
         }
 
@@ -22,7 +30,7 @@ impl EventHandler for Handler {
             0
         };
 
-        let channel: ChannelId = WELCOME_CHANNEL_ID.into();
+        let channel: ChannelId = welcome_channel_id.into();
 
         let message = if member_count == 0 {
             format!("Welcome {} to Ethene Hosting!", new_member.user.mention())
