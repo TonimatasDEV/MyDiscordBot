@@ -16,6 +16,9 @@ pub struct GuildConfig {
     pub auto_role_id: u64,
     pub ticket_system: bool,
     pub ticket_channel: u64,
+    pub ticket_category: u64,
+    pub ticket_number: u64,
+    pub moderator_roles: Vec<u64>,
 }
 
 static CONFIGS: OnceLock<Mutex<HashMap<u64, GuildConfig>>> = OnceLock::new();
@@ -32,6 +35,9 @@ fn default_config() -> GuildConfig {
         auto_role_id: 0,
         ticket_system: false,
         ticket_channel: 0,
+        ticket_category: 0,
+        ticket_number: 0,
+        moderator_roles: Vec::new(),
     }
 }
 
