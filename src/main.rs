@@ -22,6 +22,7 @@ async fn main() {
         .event_handler(listener::welcome_message::Handler)
         .event_handler(listener::ready_message::Handler)
         .event_handler(listener::commands::Handler)
+        .event_handler(listener::ticket_system::Handler)
         .await
         .expect("Err creating client");
 
