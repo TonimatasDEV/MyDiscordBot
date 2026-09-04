@@ -29,15 +29,20 @@ impl EventHandler for Handler {
             return;
         };
 
-        let guild_config = config::guild::get_config(guild_id.get());
-
-        if !guild_config.ticket_system {
-            return;
-        }
-
         let Some(component) = interaction.as_message_component() else {
             return;
         };
+
+        let guild_config = config::guild::get_config(guild_id.get());
+
+        if !guild_config.ticket_system {
+            let message = CreateInteractionResponseMessage::new().ephemeral(true).content("Ticket system is temporally disabled. Please, try again later or contact with server administrators.");
+            let _ = component
+                .create_response(&ctx.http, CreateInteractionResponse::Message(message))
+                .await;
+            return;
+        }
+
         let Some(member) = component.member.clone() else {
             return;
         };
