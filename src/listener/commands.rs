@@ -17,6 +17,7 @@ impl EventHandler for Handler {
                 "set-welcome-channel" => command::set_welcome_channel::run(ctx, command).await,
                 "system-config" => command::system_config::run(ctx, command).await,
                 "setup-ticket-system" => command::setup_ticket_system::run(ctx, command).await,
+                "reset-tickets-number" => command::reset_tickets_number::run(ctx, command).await,
                 _ => println!("invalid command"),
             }
         }
@@ -30,5 +31,8 @@ impl EventHandler for Handler {
         let _ = Command::create_global_command(&ctx.http, command::system_config::register()).await;
         let _ = Command::create_global_command(&ctx.http, command::setup_ticket_system::register())
             .await;
+        let _ =
+            Command::create_global_command(&ctx.http, command::reset_tickets_number::register())
+                .await;
     }
 }
