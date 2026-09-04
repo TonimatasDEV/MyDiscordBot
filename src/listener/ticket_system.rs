@@ -28,6 +28,13 @@ impl EventHandler for Handler {
         let Some(guild_id) = interaction.guild_id() else {
             return;
         };
+
+        let guild_config = config::guild::get_config(guild_id.get());
+
+        if !guild_config.ticket_system {
+            return;
+        }
+
         let Some(component) = interaction.as_message_component() else {
             return;
         };

@@ -25,6 +25,7 @@ pub async fn run(ctx: Context, interaction: CommandInteraction) {
     match system {
         "auto-role" => config.auto_role_system = enabled,
         "welcome-message" => config.welcome_message_system = enabled,
+        "ticket-system" => config.ticket_system = enabled,
         _ => return,
     }
 
@@ -59,6 +60,7 @@ pub fn register() -> CreateCommand {
             )
             .add_string_choice("auto-role", "auto-role")
             .add_string_choice("welcome-message", "welcome-message")
+            .add_string_choice("ticket-system", "ticket-system")
             .required(true),
         )
         .add_option(
